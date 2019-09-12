@@ -1,0 +1,62 @@
+<?php
+
+namespace app\api\model;
+
+use think\Model;
+use think\Cache;
+use app\api\service\CacheHandler;
+
+class Shop extends BaseModel
+{
+
+    public function getAlbumAttr($value, $data)
+    {
+        $string_arr = explode(",", $value);
+        $re = [];
+        foreach ($string_arr as $val) {
+            if ($val) {
+                $data = [
+                    'url' => config('setting.image_host') . $val,
+                    'url_tmp' => $val,
+                ];
+                $re[] = $data;
+            }
+        }
+
+        return $re;
+    }
+
+    public function setAlbumAttr($value)
+    {
+        $new = array();
+        foreach ($value as $v) {
+
+            if ($v['url_tmp']) {
+                $new[] = $v['url_tmp'];
+            }
+        }
+        $char = join(',', $new);
+
+        return $char;
+    }
+
+    public function coupon()
+    {
+        return $this->hasMany('Coupon', 'shop_id', 'id')->where(['status'=>1]);
+    }
+
+    public static function getDetailById($id)
+    {
+        $act = self::where(['id' => $id])->find();
+
+        return $act;
+    }
+
+    public static function getDetailCouponById($id)
+    {
+        $act = self::with(['coupon'])->where(['id' => $id])->find();
+
+        return $act;
+    }
+
+}

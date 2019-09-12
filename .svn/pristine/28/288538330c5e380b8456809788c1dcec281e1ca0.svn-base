@@ -1,0 +1,29 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/2/8
+ * Time: 13:50
+ */
+
+
+namespace app\api\controller;
+
+use app\api\service\Token as TokenService;
+use app\api\service\UserToken as UserTokenService;
+use think\Controller;
+use app\api\service\UserToken;
+
+class User extends Controller
+{
+    public function getUserByToken()
+    {
+
+        $uid = TokenService::getCurrentUid();
+
+        $user = UserTokenService::getUserByUid($uid);
+
+        $this->result($user, 0, '成功');
+
+    }
+}

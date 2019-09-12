@@ -1,0 +1,10 @@
+<?php
+/**
+ * 公共方法
+ */
+function addkey(&$val,$key, $param)
+{
+    $val[$param['key']] = $param['val'];
+}
+
+?>

@@ -1,0 +1,46 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/11/20
+ * Time: 0:36
+ */
+
+namespace app\api\model;
+
+use think\Model;
+
+class House extends Model{
+
+    public function houseImages(){
+        return $this->hasMany('house_img','house_id','id');
+    }
+
+    public static function queryHouse($where,$page=1,$pageSize=10){
+
+        $where['status']=1;
+        $list = self::with(['houseImages'])->where($where)->page($page,$pageSize)->order('id', 'asc')->select();
+
+        return $list;
+    }
+
+    public static  function countHouse($where){
+        $where['status']=1;
+        $count = self::where($where)->count(1);
+        return $count;
+    }
+
+    public static  function getDetailById2($id){
+        $house = self::get($id);
+        $data = $house->houseImages()->where('status',1)->select();
+        return $data;
+    }
+
+    public static function getDetailById($id)
+    {
+        $act = self::with(['houseImages'])->where(['id'=>$id])->find();
+
+        return $act;
+    }
+
+}

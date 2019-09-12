@@ -1,0 +1,208 @@
+---------------------------------------------------------------
+[ 2018-11-22T16:49:27+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ error ] [401]登录已过期
+---------------------------------------------------------------
+[ 2018-11-22T16:49:32+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ error ] [1045]SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+---------------------------------------------------------------
+[ 2018-11-22T16:50:22+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ sql ] [ DB ] CONNECT:[ UseTime:0.039353s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.045720s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `openid` = 'opB3b4p5eBmaEamZthAnKBK6nRGQ' LIMIT 1 [ RunTime:0.003455s ]
+---------------------------------------------------------------
+[ 2018-11-22T16:50:24+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006369s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.041520s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.005070s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004800s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house_img` [ RunTime:0.039652s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house_img` WHERE  `house_id` IN (7,9,10,11,12,13,14,15,16,17) [ RunTime:0.004311s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:00:49+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004917s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.044920s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `id` = 9 LIMIT 1 [ RunTime:0.003326s ]
+[ error ] [8]Trying to get property of non-object
+---------------------------------------------------------------
+[ 2018-11-22T17:01:21+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ error ] [401]登录已过期
+---------------------------------------------------------------
+[ 2018-11-22T17:01:26+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004857s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.030646s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `openid` = 'opB3b4p5eBmaEamZthAnKBK6nRGQ' LIMIT 1 [ RunTime:0.003221s ]
+[ sql ] [ SQL ] INSERT INTO `pp_user` (`openid` , `account` , `uname` , `addtime` , `photo` , `sex` , `source`) VALUES ('opB3b4p5eBmaEamZthAnKBK6nRGQ' , 'KEYE.OU' , 'KEYE.OU' , 1542877286 , 'https://wx.qlogo.cn/mmopen/vi_32/IGk3e7HEp0FiceQUrXICmI4BFZAwLqFWEBbbjP1SxHo3NaF52VoLFX5ics4WItECCNvzf41gJTiae1ueZULzSc4aw/132' , 1 , 'wx_xcx') [ RunTime:0.003121s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:27+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004355s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.028559s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `id` = 11 LIMIT 1 [ RunTime:0.003125s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:29+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005663s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.037107s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.002821s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003636s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:33+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=2&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004361s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.028153s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 2  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.002742s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 2  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003353s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:34+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=0&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004291s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.031836s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 0  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003305s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 0  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003760s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:35+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=3&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004376s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.031443s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 3  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003119s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 3  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003453s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:36+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=-1&halls=-1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004169s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.030985s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = -1  AND `halls` = -1  AND `status` = 1 LIMIT 1 [ RunTime:0.003372s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = -1  AND `halls` = -1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003954s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:36+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=3&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004328s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.034832s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 3  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003248s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 3  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003686s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:01:37+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=0&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004857s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.036226s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 0  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003274s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 0  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003573s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:31:18+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ error ] [401]登录已过期
+---------------------------------------------------------------
+[ 2018-11-22T17:31:25+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ error ] [401]登录已过期
+---------------------------------------------------------------
+[ 2018-11-22T17:31:32+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008382s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.035658s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `openid` = 'opB3b4p5eBmaEamZthAnKBK6nRGQ' LIMIT 1 [ RunTime:0.003698s ]
+[ error ] [0]Redis server went away
+---------------------------------------------------------------
+[ 2018-11-22T17:32:33+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004925s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.032369s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `openid` = 'opB3b4p5eBmaEamZthAnKBK6nRGQ' LIMIT 1 [ RunTime:0.003500s ]
+---------------------------------------------------------------
+[ 2018-11-22T17:32:37+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006383s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.039176s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003762s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004087s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:28:01+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.009162s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.038527s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003518s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004192s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:28:27+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005802s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.042482s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003502s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004083s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:28:36+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004848s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.043024s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `id` = 12 LIMIT 1 [ RunTime:0.003795s ]
+[ error ] [8]Trying to get property of non-object
+---------------------------------------------------------------
+[ 2018-11-22T18:28:48+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ error ] [400]invalid code, hints: [ req_id: bLFe905282167 ]-40029
+---------------------------------------------------------------
+[ 2018-11-22T18:29:35+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012174s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.035682s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.002642s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003209s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:29:46+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ error ] [401]登录已过期
+---------------------------------------------------------------
+[ 2018-11-22T18:29:51+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004613s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.033897s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `openid` = 'opB3b4p5eBmaEamZthAnKBK6nRGQ' LIMIT 1 [ RunTime:0.003359s ]
+[ sql ] [ SQL ] INSERT INTO `pp_user` (`openid` , `account` , `uname` , `addtime` , `photo` , `sex` , `source`) VALUES ('opB3b4p5eBmaEamZthAnKBK6nRGQ' , 'KEYE.OU' , 'KEYE.OU' , 1542882591 , 'https://wx.qlogo.cn/mmopen/vi_32/IGk3e7HEp0FiceQUrXICmI4BFZAwLqFWEBbbjP1SxHo3NaF52VoLFX5ics4WItECCNvzf41gJTiae1ueZULzSc4aw/132' , 1 , 'wx_xcx') [ RunTime:0.002907s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:29:52+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004198s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_user` [ RunTime:0.028718s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_user` WHERE  `id` = 12 LIMIT 1 [ RunTime:0.003274s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:34:56+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005072s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.034700s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003807s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003091s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:35:22+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004557s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.036590s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003193s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004346s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:35:58+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005956s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.059025s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003969s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004174s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:36:02+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005154s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.044015s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003450s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003146s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:36:52+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005896s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.047896s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003912s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003902s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:37:12+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005520s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.050464s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003642s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004141s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:37:46+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005877s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.082198s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003895s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004129s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:37:49+08:00 ] 192.168.5.154 GET /api/user/getUser
+[ error ] [401]登录已过期
+---------------------------------------------------------------
+[ 2018-11-22T18:37:56+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ error ] [400]invalid code, hints: [ req_id: _P7XKa00768946 ]-40029
+---------------------------------------------------------------
+[ 2018-11-22T18:38:00+08:00 ] 192.168.5.154 POST /api/token/getToken
+[ error ] [400]invalid code, hints: [ req_id: JxHVJA00802160 ]-40029
+---------------------------------------------------------------
+[ 2018-11-22T18:38:18+08:00 ] 192.168.5.154 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.083066s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.039790s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.003325s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.004017s ]
+---------------------------------------------------------------
+[ 2018-11-22T18:39:02+08:00 ] 192.168.5.186 GET /api/house/queryHouse?rooms=1&halls=1&page=1&pageSize=10
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004682s ] mysql:host=127.0.0.1;port=3306;dbname=ppido;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pp_house` [ RunTime:0.033790s ]
+[ sql ] [ SQL ] SELECT COUNT(1) AS tp_count FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.002938s ]
+[ sql ] [ SQL ] SELECT * FROM `pp_house` WHERE  `rooms` = 1  AND `halls` = 1  AND `status` = 1 ORDER BY `id`  asc LIMIT 0,10 [ RunTime:0.003897s ]

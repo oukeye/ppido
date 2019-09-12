@@ -1,0 +1,12 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/2/11
+ * Time: 15:42
+ */
+return [
+    'image_prefix' => 'http://192.168.6.218:1110/images',
+    'token_expire_in' => 86400, //过期时间,这里设置2个小时,
+    'upLoad_path'=> ROOT_PATH . DS . 'public' . DS . 'uploads' . DS . 'house'
+];

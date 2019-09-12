@@ -1,0 +1,28 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/11/28
+ * Time: 13:11
+ */
+
+namespace app\api\controller;
+
+
+use think\Controller;
+use app\api\model\User as UserModel;
+
+use app\api\service\Shop as ShopService;
+
+class Test extends Controller
+{
+
+    public function test()
+    {
+        $shopService = new ShopService();
+
+        $res = $shopService->createWcQrCode('1', '1');
+
+        $this->result($res, 0, '成功');
+    }
+}

@@ -1,0 +1,29 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/2/11
+ * Time: 14:18
+ */
+
+namespace app\api\controller;
+
+use app\api\service\UserToken;
+use think\Request;
+use think\Controller;
+
+class Token extends Controller
+{
+    public function getToken()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $ut = new UserToken($params);
+        $token = $ut->get();
+
+        $this->result($token, 0, '成功');
+    }
+
+}

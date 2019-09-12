@@ -1,0 +1,13 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/2/11
+ * Time: 15:42
+ */
+use think\Env;
+return [
+    'app_id'=>Env::get('wx.appid','wxd76803e301f6053f'),
+    'app_secret'=>Env::get('wx.appsecret','c54c1c77012fad661f5babee4819f480'),
+    'login_url'=>'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code'
+];

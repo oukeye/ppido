@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #photo-sphere {
+            width: 100%;
+            height: 500px;
+            margin: 0 auto;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+
+    <link rel="stylesheet" href="css/photo-sphere-viewer.css">
+
+    <script src="libs/three.min.js"></script>
+    <script src="libs/D.min.js"></script>
+    <script src="libs/uevent.min.js"></script>
+    <script src="libs/doT.min.js"></script>
+    <script src="libs/DeviceOrientationControls.js"></script><!-- 使用陀螺仪加入此js库文件 -->
+    <script src="libs/photo-sphere-viewer.min.js"></script>
+
+</head>
+<body>
+<!-- 全景图 -->
+<div id="photo-sphere">
+    <div id="viewer"></div>
+</div>
+<script>
+
+    let config = [
+
+        {
+            url:{
+                left: 'images/siximg/left.jpg',
+                front: 'images/siximg/front.jpg',
+                right: 'images/siximg/right.jpg',
+                back: 'images/siximg/back.jpg',
+                top: 'images/siximg/top.jpg',
+                bottom: 'images/siximg/bottom.jpg',
+            },
+            desc:'太阳神庙 ( 虚幻 4 )'
+        }
+
+    ];
+
+    let PSV = PhotoSphereViewer({
+
+        container:'viewer', // 直接写 id 值
+        // panorama:'images/Bryce-Canyon.jpg',
+        panorama:config[0].url,
+        caption:config[0].desc,
+        default_long: Math.PI / 2,
+        default_fov: 90,
+        size:{
+            width:'100%',
+            height:isMobile()? screen.availHeight : '100%',
+        },
+        loading_msg:'images/photosphere-logo.gif',
+        time_anim:false,
+
+        markers:[
+            {
+                id:'image',
+                image:'images/pin2.png',
+                width:35,
+                height:35,
+                longitude: 100,
+                latitude: 0,
+                anchor:'bottom center',
+                tooltip:'雕像',
+            },
+            {
+                id:'image2',
+                image:'images/pin1.png',
+                width:35,
+                height:35,
+                longitude: 20,
+                latitude: -0.15,
+                anchor:'bottom center',
+                tooltip:'灯',
+            }
+        ]
+    });
+
+    /* 判断设备是否为移动端 */
+    function isMobile() {
+
+        let ua = navigator.userAgent;
+
+        let ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+
+            isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+
+            isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+
+            isMobile = isIphone || isAndroid;
+
+        return isMobile;
+
+    }
+    if (!isMobile()) {
+        document.getElementById('photo-sphere').style.marginTop = '100px';
+        document.getElementById('photo-sphere').style.marginBottom = '100px';
+        document.getElementById('photo-sphere').style.marginLeft = 'auto';
+        document.getElementById('photo-sphere').style.marginRight = 'auto';
+        document.getElementById('photo-sphere').style.width = '80%';
+    }
+</script>
+
+</body>
+</html>

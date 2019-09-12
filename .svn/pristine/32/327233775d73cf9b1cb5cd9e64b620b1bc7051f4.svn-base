@@ -1,0 +1,8 @@
+body{ text-align:center} 
+.container {
+    margin:0 auto;
+}
+.pano {
+    margin:0 auto;
+    z-index:1;
+}

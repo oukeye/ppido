@@ -1,0 +1,38 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/11/28
+ * Time: 13:11
+ */
+
+namespace app\api\controller;
+
+
+use think\Controller;
+use think\Response;
+use think\exception\HttpResponseException;
+use app\api\model\User as UserModel;
+
+use app\api\service\Shop as ShopService;
+
+class Test extends Controller
+{
+
+    public function test()
+    {
+
+//        echo '.downLoadAppBannerWrapper .downloadBtn{background:red;}';
+
+        $data2 = ".downLoadAppBannerWrapper .downloadBtn{background:blue;}";
+        $data1 = "";
+
+        $response = Response::create($data2, 'text/css');
+//        $response->header(['Content-Type'=>'text/html; charset=utf-8','Accept-Ranges'=>'bytes','Cache-Control'=>'public, max-age=0']);
+        $response->contentType('text/css');
+       throw new HttpResponseException($response);
+
+
+
+    }
+}

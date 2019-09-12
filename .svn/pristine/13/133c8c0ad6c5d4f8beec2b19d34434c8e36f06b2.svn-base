@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>全景图</title>
+    <link rel="stylesheet" href="css/photo-sphere-viewer.min.css">
+    <link rel="stylesheet" href="js/swiper4/css/swiper.min.css">
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        #photosphere {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .photosphereItem {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+
+        }
+
+        .psv-button.custom-button {
+            font-size: 22px;
+            line-height: 20px;
+        }
+
+        .navBarWrapper {
+            width: 100%;
+            height: 48px;
+            background: rgba(0,0,0,.65);
+            font-size: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        .navBarWrapper .item {
+            display: inline-block;
+            vertical-align: middle;
+            width: 80px;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+            font-size: 14px;;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 48px;
+        }
+
+        .navBarWrapper .swiper-container .swiper-slide {
+            width: 80px;
+            height: 48px;
+            line-height: 48px;
+            font-size: 14px;
+            color: #cccccc;
+            text-align: center;
+        }
+
+        .navBarWrapper .swiper-container .swiper-slide.active {
+            color: #ffffff;
+        }
+
+        .arrowLeftBtn {
+            width: 15px;
+            height: 25px;
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            z-index: 99;
+            transform: translate3d(0, 50%, 0);
+            background: url('../static/images/arrowLeft@3x.png') no-repeat center;
+            background-size: 100%;
+        }
+
+        .arrowRightBtn {
+            width: 15px;
+            height: 25px;
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            z-index: 99;
+            transform: translate3d(0, 50%, 0);
+            background: url('../static/images/arrowRight@3x.png') no-repeat center;
+            background-size: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="navBarWrapper">
+        <div class="swiper-container" id="navBar">
+            <div class="swiper-wrapper" id="swiperWrapper">
+                <!-- <div class="swiper-slide">Slide 1</div>
+                 <div class="swiper-slide">Slide 2</div>
+                 <div class="swiper-slide">Slide 3</div>
+                 <div class="swiper-slide">Slide 4</div>
+                 <div class="swiper-slide">Slide 5</div>-->
+            </div>
+        </div>
+    </div>
+    <div class="arrowLeftBtn" id="arrowLeftBtn"></div>
+    <div class="arrowRightBtn" id="arrowRightBtn"></div>
+    <div id="photosphere">
+        <!--<div class="photosphereItem" id="id0"></div>
+        <div class="photosphereItem" id="id1"></div>
+        <div class="photosphereItem" id="id2"></div>
+        <div class="photosphereItem" id="id3"></div>
+        <div class="photosphereItem" id="id4"></div>-->
+    </div>
+
+</div>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/swiper4/js/swiper.min.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/D.min.js"></script>
+<script src="js/uevent.min.js"></script>
+<script src="js/doT.min.js"></script>
+<script src="js/NoSleep.min.js"></script>
+<script src="js/photo-sphere-viewer.min.js"></script>
+
+<script>
+    function initSwiper() {
+        var mySwiper = new Swiper('#navBar', {
+            direction: 'horizontal',
+            slidesPerView: 'auto',
+            freeMode: true,
+            observer: true,
+            observeParents: true
+        })
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    var activeIndex = getQueryString('index') || 0;
+    var houseId = getQueryString('id');
+    var PSV = null;
+    var dataList = [];
+    var currIndex = activeIndex;
+
+    function createPhotoSphereViewer(index) {
+
+        var bannerItem = dataList[index];
+
+        PSV = new PhotoSphereViewer({
+            container: 'photosphere',
+            panorama: bannerItem.panoramaUrl,
+            time_anim: 2000,
+            default_long: Math.PI / 2,
+            loading_img: 'assets/photosphere-logo.gif',
+            navbar: [
+                'autorotate', 'zoom', 'caption', 'gyroscope', 'stereo', 'fullscreen'
+            ]
+        });
+        PSV.zoom(0);
+    }
+
+    function loadData() {
+        if (!houseId) {
+            alert('参数错误');
+            return;
+        }
+        $.ajax({
+            type: 'get',
+            url: '/api/house/banner/list?XDEBUG_SESSION_START=10994',
+            data: {id: houseId},
+            success: function (res) {
+                if (res.code == 0) {
+                    renderPage(res.data);
+                }
+            },
+            fail: function () {
+
+            }
+        });
+    }
+
+    function renderPage(list) {
+        var slideHtml = '';
+        var photosphereItemHtml = '';
+        dataList = list;
+
+        for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            slideHtml += '<div class="swiper-slide" url="' + item.panoramaUrl + '">' + (item.name || '全景') + '</div>';
+        }
+
+        $("#swiperWrapper").html(slideHtml);
+
+        initSwiper();
+
+        createPhotoSphereViewer(activeIndex);
+        activeNav(activeIndex);
+    }
+
+    function changeNav(index) {
+
+        currIndex = index;
+
+        activeNav(index);
+
+        var item = dataList[index];
+
+        PSV.config.panorama = item.panoramaUrl;
+
+        PSV.load();
+    }
+
+    function activeNav(index) {
+        var element = $(".swiper-slide").eq(index);
+        element.addClass('active').siblings().removeClass('active');
+    }
+
+    $(function () {
+
+        loadData();
+
+        $("#navBar").on('click', '.swiper-slide', function () {
+
+            var _this = $(this);
+
+            $(".photosphereItem").hide();
+
+            var index = _this.index();
+
+            changeNav(index);
+
+        });
+
+        $("#arrowLeftBtn").click(function () {
+            var index = currIndex - 1;
+            if (index < 0) {
+                index = dataList.length - 1;
+            }
+            changeNav(index);
+        });
+
+        $("#arrowRightBtn").click(function () {
+            var index = currIndex + 1;
+            if (index > dataList.length - 1) {
+                index = 0;
+            }
+            changeNav(index);
+        });
+
+
+    });
+
+
+</script>
+
+</body>
+</html>

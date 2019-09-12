@@ -1,0 +1,256 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/11/19
+ * Time: 19:35
+ */
+
+namespace app\api\controller;
+
+use app\api\service\Furniture;
+use think\Request;
+use think\Controller;
+use app\api\service\House as HouseService;
+use app\api\service\Img as ImgService;
+use app\api\service\HouseApply as HouseApplyService;
+use app\api\service\Token as TokenService;
+use app\api\service\UserToken as UserTokenService;
+
+class House extends Controller
+{
+
+    public function createHouse()
+    {
+
+        $dataArray = input('post.');
+
+        $houseM = HouseService::createHouse($dataArray);
+
+        $this->result($houseM, 0, '成功');
+    }
+
+    public function queryHouse()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $where = array_filter($params, function($v, $k) {
+            return in_array($k,['house_style','rooms','halls']);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        $list = HouseService::queryHouse($where, $params['page'], $params['pageSize']);
+
+        $this->result($list, 0, '成功');
+    }
+
+    public function detail()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $list = HouseService::getDetailById($params['id']);
+//        $data = $list->toArray();
+        $list['edit'] = false;
+
+        try {
+            $uid = TokenService::getCurrentUid();
+            $user = UserTokenService::getUserByUid($uid);
+            $list['edit'] = $user['status'] === 3;
+        } catch (\Exception $e) {
+
+        }
+
+
+        $this->result($list, 0, '成功');
+    }
+
+    public function detailForEdit()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $list = [];
+        if (!empty($params['id'])) {
+            $list = HouseService::getDetailEditById($params['id']);
+        }
+
+
+        $furnitureList = Furniture::getFurnitureList();
+
+        if (!empty($list)) {
+
+            $selectFurnitureLis = array_map(function (&$val) {
+                return $val->furniture_id;
+            }, $list['house_furniture']);
+
+            foreach ($furnitureList as &$value) {
+                if (in_array($value->id, $selectFurnitureLis)) {
+                    $value->isSelect = true;
+                    $value->isSelect = true;
+                } else {
+                    $value->isSelect = false;
+                }
+            };
+        }
+
+        $list['furnitureLis'] = $furnitureList;
+
+        try {
+            $uid = TokenService::getCurrentUid();
+            $user = UserTokenService::getUserByUid($uid);
+            $list['edit'] = $user['status'] === 3;
+        } catch (\Exception $e) {
+
+        }
+
+        $this->result($list, 0, '成功');
+    }
+
+    public function uploadImage($files)
+    {
+        $request = Request::instance();
+        // 获取表单上传文件
+        $files = $request->file();
+
+        if (!empty($files['file'])) {
+            $file = $files['file'];
+        } else {
+            $file = $files[0];
+
+        }
+
+        $saveUrl = 'uploads' . DS . 'house';
+
+        $path = config('setting.upLoad_path') . $saveUrl;
+
+
+        $info = $file->validate(['ext' => 'jpg,png,gif'])->move($path);
+
+        if ($info) {
+            return $saveUrl . DS . $info->getSaveName();
+        } else {
+            return '';
+            // 上传失败获取错误信息
+//                echo $file->getError();
+        }
+    }
+
+    public function upload()
+    {
+        $dataArray = input('post.');
+
+        $url = $this->uploadImage($_FILES);
+
+        if ($url) {
+            $url = str_replace('\\', '/', $url);
+            $data = [
+                'url' => $url
+            ];
+            $image = ImgService::create($data);
+        }
+        $data = $image->toArray();
+
+        $data = array_merge($data, $dataArray);
+        $this->result($data, 0, '成功');
+
+    }
+
+    public function apply()
+    {
+        $dataArray = input('post.');
+
+        $re = HouseApplyService::create($dataArray);
+
+        $data = [
+            'appay' => $re
+        ];
+        $this->result($re, 0, '成功');
+    }
+
+    public function applyList()
+    {
+        $request = Request::instance();
+
+        $params = $request->param();
+
+        $where = [
+
+        ];
+
+        $list = HouseApplyService::applyList($where, $params['page'], $params['pageSize']);
+
+        $this->result($list, 0, '成功');
+    }
+
+    public function edit()
+    {
+        $dataArray = input('post.');
+
+        $houseM = HouseService::edit($dataArray);
+
+        $this->result($houseM, 0, '成功');
+    }
+
+    public function del()
+    {
+        $dataArray = input('post.');
+
+        $houseM = HouseService::del($dataArray);
+
+        $this->result($houseM, 0, '成功');
+    }
+
+    public function houseList()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $where = $params['data'] || [];
+
+        $list = HouseService::queryHouse($where, $params['page'], $params['pageSize']);
+
+        $this->result($list, 0, '成功');
+    }
+
+    public function publicityHouseList()
+    {
+        $request = Request::instance();
+        $params = $request->param();
+
+        $where = [
+            'tel' => '18665555803'
+        ];
+
+        $data = HouseService::queryPublicityHouse($where, $params['page'], $params['pageSize']);
+
+        $this->result($data, 0, '成功');
+    }
+
+    public function bannerList()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $data = HouseService::bannerList($params['id']);
+
+        $this->result($data, 0, '成功');
+    }
+
+
+    public function addHouse()
+    {
+
+        $dataArray = input('post.');
+
+        $houseM = HouseService::createHouse($dataArray);
+
+        $this->result($houseM, 0, '成功');
+    }
+
+}

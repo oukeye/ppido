@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>全景图</title>
+    <link rel="stylesheet" href="css/photo-sphere-viewer.min.css">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        #photosphere {
+            width: 100%;
+            height: 100%;
+        }
+
+        .psv-button.custom-button {
+            font-size: 22px;
+            line-height: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="photosphere"></div>
+
+<script src="js/three.min.js"></script>
+<script src="js/D.min.js"></script>
+<script src="js/uevent.min.js"></script>
+<script src="js/doT.min.js"></script>
+<script src="js/NoSleep.min.js"></script>
+<script src="js/photo-sphere-viewer.min.js"></script>
+
+<script>
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    var panoramaUrl = getQueryString('url');
+    var houseId = getQueryString('id');
+    console.log(panoramaUrl,houseId);
+    if(houseId){
+
+    }else{
+
+    }
+    var PSV = new PhotoSphereViewer({
+        container: 'photosphere',
+        panorama: panoramaUrl,//panos[0].url,
+        // caption: panos[0].desc,
+        //fisheye: true,
+//    webgl: false,
+//        min_fov:59,
+//        max_fov:60,
+        time_anim: 2000,
+        default_long: Math.PI / 2,
+        loading_img: 'assets/photosphere-logo.gif',
+        navbar: [
+            'autorotate', 'zoom', 'caption', 'gyroscope', 'stereo', 'fullscreen'
+        ]
+    });
+
+    PSV.zoom(0);
+
+</script>
+
+</body>
+</html>

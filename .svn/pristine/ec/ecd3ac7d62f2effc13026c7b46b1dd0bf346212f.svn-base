@@ -1,0 +1,116 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/11/19
+ * Time: 19:35
+ */
+
+namespace app\api\controller;
+
+use think\Request;
+use think\Controller;
+use app\api\service\House as HouseService;
+use app\api\service\HouseImg as HouseImgService;
+use app\api\service\HouseApply as HouseApplyService;
+
+class House extends Controller
+{
+
+    public function createHouse()
+    {
+
+        $dataArray = input('post.');
+        $houseM = HouseService::createHouse($dataArray);
+
+
+        $this->result($houseM, 0, '成功');
+    }
+
+    public function queryHouse()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $where = [
+            'rooms' => $params['rooms'],
+            'halls' => $params['halls']
+        ];
+        $list = HouseService::queryHouse($where, $params['page'], $params['pageSize']);
+
+        $this->result($list, 0, '成功');
+    }
+
+    public function detail()
+    {
+
+        $request = Request::instance();
+        $params = $request->param();
+
+        $list = HouseService::getDetailById($params['id']);
+
+        $this->result($list, 0, '成功');
+    }
+
+    public function uploadImage($files)
+    {
+        $request = Request::instance();
+        // 获取表单上传文件
+        $files = $request->file();
+
+
+        $dataArray = input('post.');
+
+
+        $houseId = $dataArray['id'];
+        $file = $files[0];
+
+        $path = 'uploads' . DS . 'house';
+
+        $info = $file->validate(['ext' => 'jpg,png,gif'])->move(dirname(ROOT_PATH) . DS . 'resource' . DS . $path);
+//        $info = $file->validate(['ext' => 'jpg,png,gif'])->move(ROOT_PATH . DS . 'public' . DS . $path);
+
+        if ($info) {
+            return $path . DS . $info->getSaveName();
+        } else {
+            return '';
+            // 上传失败获取错误信息
+//                echo $file->getError();
+        }
+    }
+
+    public function upload()
+    {
+        $res = $this->uploadImage($_FILES);
+
+        $res = str_replace('\\', '/', $res);
+        $this->result($res, 0, '成功');
+    }
+
+    public function apply()
+    {
+        $dataArray = input('post.');
+
+        $re = HouseApplyService::create($dataArray);
+
+        $data = [
+            'appay' => $re
+        ];
+        $this->result($re, 0, '成功');
+    }
+
+    public function edit()
+    {
+        $dataArray = input('post.');
+
+        $house = $dataArray['house'];
+        $id = HouseService::edit($house);
+
+        $houseImg = $dataArray['houseImg'];
+        $re = HouseImgService::createAll($id, $houseImg);
+
+        $this->result($id, 0, '成功');
+    }
+
+}

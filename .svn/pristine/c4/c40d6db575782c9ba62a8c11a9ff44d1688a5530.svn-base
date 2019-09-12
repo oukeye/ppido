@@ -1,0 +1,293 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: oukeye
+ * Date: 2018/11/20
+ * Time: 0:38
+ */
+
+namespace app\api\service;
+
+use app\api\model\House as HouseModel;
+use app\api\model\HouseBanner as HouseBannerModel;
+use app\api\model\HouseBannerItem as HouseBannerItemModel;
+use app\api\model\HouseFurniture as HouseFurnitureModel;
+use app\api\model\Img as ImgModel;
+use app\api\model\User as UserModel;
+use app\api\service\Token as TokenService;
+use think\Db;
+use app\lib\exception\CreateHouseException;
+
+class House
+{
+
+    function __construct($params)
+    {
+        $this->houseInfo = $params;
+    }
+
+    public static function createHouse($data)
+    {
+        $uid = TokenService::getCurrentUid();
+
+
+        // 启动事务
+        Db::startTrans();
+        try {
+            $house = $data['house'];
+
+            $houseFurnitureList = $house['furniture'];
+
+            $furniture = implode(',', $house['furniture']);
+
+            $house['user_id'] = $uid;
+            $house['furniture'] = $furniture;
+            $house['status'] = 1;
+
+            $HouseMo = new HouseModel();
+            $newHouse = $HouseMo->allowField(true)->save($house);
+
+            $houseFurnitureListData=[];
+            foreach ($houseFurnitureList as $value) {
+                $da = [
+                    'house_id'=>$HouseMo->id,
+                    'furniture_id' => $value,
+                    'status'=>1,
+                ];
+                $houseFurnitureListData[] = $da;
+            }
+
+            if(!empty($houseFurnitureListData)){
+                $HouseFurnitureMO = new HouseFurnitureModel();
+
+                $HouseFurnitureMO->allowField(true)->saveAll($houseFurnitureListData);
+            }
+
+
+            $houseItem = $data['houseBanner'];
+
+            // 批量增加关联数据
+            if(!empty($houseItem)){
+
+                $newKeyArray = [
+                    'house_id' => $HouseMo->id,
+                    "status" => 1
+                ];
+
+                array_walk($houseItem, function (&$value, $key, $arr) {
+                    $value = array_merge($value, $arr);
+                }, $newKeyArray);
+
+                $houseItemMo = new HouseBannerModel();
+                $re_HouseBanner = $houseItemMo->allowField(true)->saveAll($houseItem);
+                $data = [];
+                foreach ($re_HouseBanner as $value) {
+
+                    $newKeyArray2 = [
+                        'house_banner_id' => $value->id,
+                        "status" => 1
+                    ];
+                    $imagesArray = $value->items;
+
+                    foreach ($imagesArray as $value) {
+                        $data[] = array_merge($value, $newKeyArray2);;
+                    }
+
+                }
+
+                $houseBannerItemMo = new HouseBannerItemModel();
+
+                $re = $houseBannerItemMo->allowField(['house_banner_id', 'img_id', 'status', 'update_time'])->saveAll($data);
+
+            }
+
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+
+            throw new CreateHouseException();
+
+        }
+
+        return $newHouse;
+    }
+
+    public static function queryHouse($where, $page, $pageSize)
+    {
+        $count = HouseModel::countHouse($where);
+        $list = HouseModel::queryHouse($where, $page, $pageSize);
+        $totalPage = ceil($count / $pageSize);
+        return [
+            'totalPage' => $totalPage,
+            'list' => $list,
+            'total' => $count
+        ];
+    }
+
+    public static function queryPublicityHouse($where, $page, $pageSize)
+    {
+        $count = HouseModel::countHouse($where);
+        $list = HouseModel::queryPublicityHouse($where, $page, $pageSize);
+        $totalPage = ceil($count / $pageSize);
+        return [
+            'totalPage' => $totalPage,
+            'list' => $list,
+            'total' => $count
+        ];
+    }
+
+    public static function queryPublicityEditHouse($where, $page, $pageSize)
+    {
+        $count = HouseModel::countHouse($where);
+        $list = HouseModel::queryPublicityHouseForEdit($where, $page, $pageSize);
+        $totalPage = ceil($count / $pageSize);
+        return [
+            'totalPage' => $totalPage,
+            'list' => $list,
+            'total' => $count
+        ];
+    }
+
+    public static function getDetailById($id)
+    {
+        return HouseModel::getDetailById($id);
+    }
+
+    public static function getDetailEditById($id)
+    {
+        return HouseModel::getDetailEditById($id);
+    }
+
+    public static function edit($data)
+    {
+
+        $uid = TokenService::getCurrentUid();
+
+        // 启动事务
+        Db::startTrans();
+        try {
+            $house = $data['house'];
+
+            $time = time();
+            $timeStr = date("Y-m-d H:i:s", $time);
+
+            $houseFurnitureList = $house['furniture'];
+            $furniture = implode(',', $house['furniture']);
+            $house['user_id'] = $uid;
+            $house['furniture'] = $furniture;
+            $house['update_time'] = $timeStr;
+
+            $newHouse = HouseModel::get($house['id']);
+
+            $newHouse->allowField(true)->isUpdate(true)->save($house);
+
+            $newHouse->houseFurniture()->where(['status'=>1])->delete();
+
+            $houseFurnitureListData = [];
+
+            foreach ($houseFurnitureList as $value) {
+                $da = [
+                    'house_id'=>$house['id'],
+                    'furniture_id' => $value,
+                    'status'=>1
+                ];
+                $houseFurnitureListData[] = $da;
+            }
+
+            $HouseFurnitureMO = new HouseFurnitureModel();
+
+            $HouseFurnitureMO->allowField(true)->saveAll($houseFurnitureListData);
+
+            $houseItemArray = $data['houseBanner'];
+
+            $newKeyArray = [
+                'house_id' => $newHouse->id,
+                "status" => 1
+            ];
+
+            array_walk($houseItemArray, function (&$value, $key, $arr) {
+                $value = array_merge($value, $arr);
+            }, $newKeyArray);
+
+            // 批量增加关联数据
+            $houseItemMo = new HouseBannerModel();
+            $houseItemMo->data($houseItemArray);
+            $re_HouseBanner = $houseItemMo->allowField(true)->saveAll($houseItemArray);
+
+
+            $data = [];
+            foreach ($re_HouseBanner as $value) {
+
+                $newKeyArray2 = [
+                    'house_banner_id' => $value->id,
+                    "status" => 1,
+                    "update_time" => $timeStr
+                ];
+                $imagesArray = $value->items;
+
+                array_walk($imagesArray, function (&$value, $key, $arr) {
+                    $value = array_merge($value, $arr);
+                }, $newKeyArray2);
+
+                $data = array_merge($data, $imagesArray);
+
+            }
+
+            $houseBannerItemMo = new HouseBannerItemModel();
+
+            $re = $houseBannerItemMo->allowField(['house_banner_id', 'img_id', 'status', 'weight', 'update_time'])->saveAll($data);
+
+            // 提交事务
+            Db::commit();
+        } catch (\xception $e) {
+            // 回滚事务
+            Db::rollback();
+
+            throw new CreateHouseException();
+
+        }
+
+        return $newHouse;
+    }
+
+    public static function del($data)
+    {
+
+        try {
+
+            $time = time();
+            $timeStr = date("Y-m-d H:i:s", $time);
+
+            $uid = TokenService::getCurrentUid();
+
+            if (empty($uid)) {
+                throw new CreateHouseException('下架失败');
+            }
+            $user = UserModel::getUserById($uid);
+
+            if (empty($user) || $user['status'] !== 3) {
+                throw new CreateHouseException('没有权限');
+            }
+
+            $newHouse = HouseModel::get($data['id']);
+            $newHouse->status = 0;
+            $newHouse->update_time = $timeStr;
+
+            $newHouse->isUpdate(true)->save();
+
+        } catch (\Exception $e) {
+            throw new CreateHouseException('下架失败');
+        }
+
+        return $newHouse;
+    }
+
+    public static function bannerList($where){
+
+        $list = HouseBannerModel::bannerByHouseId($where);
+        return $list;
+    }
+
+}
