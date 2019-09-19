@@ -98,17 +98,13 @@ class ServiceCenter extends Controller
 
         $lastNotice = NoticeModel::getLastDetail();
 
-        if ($lastNotice) {
-            if (Collection($lastNotice)->isEmpty()) {
-                $this->result(false, 0, '成功');
-            }
-            $list = NoticeLogService::getUserLog($lastNotice['id']);
-
-            $this->result(!$list, 0, '成功');
-        } else {
+        if (Collection($lastNotice)->isEmpty()) {
             $this->result(false, 0, '成功');
         }
 
+        $list = NoticeLogService::getUserLog($lastNotice['id']);
+
+        $this->result(!$list, 0, '成功');
     }
 
 }

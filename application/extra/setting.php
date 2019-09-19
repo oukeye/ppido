@@ -16,10 +16,12 @@ if ($envName == 'dev') {
 } else {
     $path = $upload_path_g;
 }
-
+//$image_host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/';
+//
 $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === false ? 'http' : 'https';
-
+//
 $image_host = $protocol . '://' . $_SERVER['HTTP_HOST'] . '/';
+
 
 return [
     'image_prefix' => 'http://192.168.6.218:1110/images',

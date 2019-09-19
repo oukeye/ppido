@@ -113,7 +113,7 @@ class House extends Controller
         $this->result($list, 0, '成功');
     }
 
-    public function uploadImage($files)
+    public function uploadImage($type='house')
     {
         $request = Request::instance();
         // 获取表单上传文件
@@ -126,12 +126,12 @@ class House extends Controller
 
         }
 
-        $saveUrl = 'uploads' . DS . 'house';
+        $saveUrl = 'uploads' . DS . $type;
 
         $path = config('setting.upLoad_path') . $saveUrl;
 
 
-        $info = $file->validate(['ext' => 'jpg,png,gif'])->move($path);
+        $info = $file->validate(['ext' => 'jpeg,jpg,png,gif'])->move($path);
 
         if ($info) {
             return $saveUrl . DS . $info->getSaveName();
@@ -146,7 +146,7 @@ class House extends Controller
     {
         $dataArray = input('post.');
 
-        $url = $this->uploadImage($_FILES);
+        $url = $this->uploadImage($dataArray['type']);
 
         if ($url) {
             $url = str_replace('\\', '/', $url);

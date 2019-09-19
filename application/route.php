@@ -52,6 +52,7 @@ return [
 
     'api/coupon/list' => ['api/coupon/queryList', ['method' => 'get']],
 
+    'api/lawyer/list' => ['api/lawyer/queryList', ['method' => 'get']],
 
     'api/shop/detailCoupon' => ['api/shop/detailCoupon', ['method' => 'get']],
 
